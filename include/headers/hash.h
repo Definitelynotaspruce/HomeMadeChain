@@ -110,6 +110,7 @@ void transformWords(T &chunk, std::bitset<32> *digest)
     digest[5] = std::bitset<32>(digest[5].to_ullong() + vars[5].to_ullong());
     digest[6] = std::bitset<32>(digest[6].to_ullong() + vars[6].to_ullong());
     digest[7] = std::bitset<32>(digest[7].to_ullong() + vars[7].to_ullong()); 
+
 }
 
 template <class T>
