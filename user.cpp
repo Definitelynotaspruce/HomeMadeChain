@@ -15,3 +15,8 @@ User::User(int num)
     public_key = hash(name); 
     balance = rand() % 10000 + 1; 
 }
+
+std::string getUserInfo( User user)
+{
+    return ("name: " + user.name + " public_key: " + user.public_key + " balance: " + std::to_string(user.balance));
+}

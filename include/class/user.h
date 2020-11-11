@@ -12,8 +12,8 @@ class User
 
     User();
     User(int);
-
-
+    
+    friend std::string getUserInfo(User user);
 };
 
 #endif
