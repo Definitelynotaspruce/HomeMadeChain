@@ -22,8 +22,9 @@ class Transaction
     Transaction(User&, User&);
     Transaction(User&, User&, int);
 
-    friend bool validateTransaction(Transaction);
+    friend bool validateTransaction(Transaction&);
     friend std::string getTransactionInfo (Transaction);
+    friend void getDetailedTransactionInfo(Transaction);
 
 };
 
