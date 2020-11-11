@@ -53,7 +53,7 @@ struct Chunk : public BitsetObject<BITSIZE>
 {
     Chunk()
     {
-        words = getChunks<BitsetObject<BITSIZE / 16>, BITSIZE / 16>(this->value.to_string()); 
+        words = getChunks<BitsetObject<BITSIZE / 16>, BITSIZE / 16>(this->value.to_string());
     }
     Chunk(std::bitset<BITSIZE> bitSet) : BitsetObject<BITSIZE>(bitSet)
     {
@@ -109,8 +109,7 @@ void transformWords(T &chunk, std::bitset<32> *digest)
     digest[4] = std::bitset<32>(digest[4].to_ullong() + vars[4].to_ullong());
     digest[5] = std::bitset<32>(digest[5].to_ullong() + vars[5].to_ullong());
     digest[6] = std::bitset<32>(digest[6].to_ullong() + vars[6].to_ullong());
-    digest[7] = std::bitset<32>(digest[7].to_ullong() + vars[7].to_ullong()); 
-
+    digest[7] = std::bitset<32>(digest[7].to_ullong() + vars[7].to_ullong());
 }
 
 template <class T>

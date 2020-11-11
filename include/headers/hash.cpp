@@ -9,7 +9,7 @@ std::string digestToString(std::bitset<32> *digest)
     ss << std::setw(8) << std::setfill('0') << std::hex << digest[0].to_ullong()
        << std::setw(8) << digest[1].to_ullong() << std::setw(8) << digest[2].to_ullong()
        << std::setw(8) << digest[3].to_ullong() << std::setw(8) << digest[4].to_ullong()
-       << std::setw(8) << digest[5].to_ullong() << std::setw(8) << digest[6].to_ullong() 
+       << std::setw(8) << digest[5].to_ullong() << std::setw(8) << digest[6].to_ullong()
        << std::setw(8) << digest[7].to_ullong();
     return ss.str();
 }
@@ -64,7 +64,7 @@ std::string hash(const std::string &input)
     std::bitset<32> h4 = std::bitset<32>(std::string("11000011110100101110000111110000"));
     std::bitset<32> h5 = std::bitset<32>(std::string("00101110100101011010111010001001"));
     std::bitset<32> h6 = std::bitset<32>(std::string("11111000001000000101100010001010"));
-    std::bitset<32> h7 = std::bitset<32>(std::string("00000010001000100101010000110010")); 
+    std::bitset<32> h7 = std::bitset<32>(std::string("00000010001000100101010000110010"));
 
     std::bitset<32> digest[] = {h0, h1, h2, h3, h4, h5, h6, h7};
 
@@ -75,6 +75,5 @@ std::string hash(const std::string &input)
         transformWords(chunk, digest);
     }
 
-    return digestToString(digest);    
+    return digestToString(digest);
 }
-
