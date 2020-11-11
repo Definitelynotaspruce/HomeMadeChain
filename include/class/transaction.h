@@ -3,7 +3,7 @@
 
 #include <string>
 
-class transaction
+class Transaction
 {
     public:
     std::string ID;
@@ -11,9 +11,9 @@ class transaction
     std::string reciever_public_key;
     int sum;
 
-    transaction();
-    transaction(std::string, std::string);
-    transaction(std::string, std::string, int);
+    Transaction();
+    Transaction(std::string, std::string);
+    Transaction(std::string, std::string, int);
 
 };
 

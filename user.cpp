@@ -2,14 +2,14 @@
 #include "include/headers/hash.h"
 #include <random>
 
-user::user() 
+User::User() 
 {
     name = "user"; 
     public_key = "public_key"; 
     balance  = 100; 
 }
 
-user::user(int num) 
+User::User(int num) 
 { 
     name = "user" + std::to_string(num); 
     public_key = hash(name); 

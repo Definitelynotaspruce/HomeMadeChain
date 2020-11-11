@@ -5,7 +5,7 @@
 #include <vector>
 #include "class/transaction.h"
 
-class block
+class Block
 {
     public:
     //header
@@ -17,10 +17,10 @@ class block
     int difficulty_target;
 
     //transactions
-    std::vector<transaction> included_transactions;
+    std::vector<Transaction> included_transactions;
 
-    block();
-    block(std::string, std::string);
+    Block();
+    Block(std::string, std::string);
 
 };
 

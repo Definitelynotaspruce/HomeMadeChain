@@ -3,15 +3,15 @@
 
 #include <string>
 
-class user
+class User
 {
     public:
     std::string name;
     std::string public_key;
     int balance;
 
-    user();
-    user(int);
+    User();
+    User(int);
 
 
 };

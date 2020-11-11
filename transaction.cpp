@@ -4,7 +4,7 @@
 #include <string>
 
 
-transaction::transaction() 
+Transaction::Transaction() 
 {
     ID = "id";
     sender_public_key = "sender_public_key";
@@ -12,7 +12,7 @@ transaction::transaction()
 }
 
 //constructor with random sum
-transaction::transaction(std::string senderPK, std::string recieverPK) 
+Transaction::Transaction(std::string senderPK, std::string recieverPK) 
 { 
     sender_public_key = senderPK;
     reciever_public_key = recieverPK;
@@ -21,7 +21,7 @@ transaction::transaction(std::string senderPK, std::string recieverPK)
 }
 
 // constructor with set sum
-transaction::transaction(std::string senderPK, std::string recieverPK, int money) 
+Transaction::Transaction(std::string senderPK, std::string recieverPK, int money) 
 { 
     sender_public_key = senderPK;
     reciever_public_key = recieverPK;
