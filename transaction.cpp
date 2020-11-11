@@ -1,12 +1,5 @@
 #include "include/class/transaction.h"
 
-/* Transaction::Transaction() 
-{
-    ID = "";
-    sender_public_key = "sender";
-    reciever_public_key = "reciever_public_key";
-} */
-
 //constructor with random sum
 Transaction::Transaction(User &sender, User &reciever)
 {
@@ -49,4 +42,13 @@ void printDetailedTransactionInfo(Transaction transaction)
     std::cout << "Transaction between " << transaction.sender->name
               << " and " << transaction.reciever->name << std::endl;
     std::cout << getTransactionInfo(transaction) << std::endl;
+}
+
+std::string transToString(Transaction transaction)
+{
+    std::stringstream ss;
+    ss << transaction.ID << transaction.sender->name 
+    << transaction.reciever->name << transaction.sum;
+     
+    return ss.str();
 }

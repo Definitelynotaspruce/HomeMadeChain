@@ -1,16 +1,21 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
+#include "class/transaction.h"
+#include "headers/hash.h"
+
 #include <string>
 #include <vector>
-#include "class/transaction.h"
+#include <ctime>
+#include <sstream>
+
 
 class Block
 {
-    public:
+public:
     //header
     std::string prev_block_hash;
-    std::string timestamp;
+    time_t timestamp;
     std::string version;
     std::string merkel_root_hash;
     int nonce;
@@ -22,6 +27,7 @@ class Block
     Block();
     Block(std::string, std::string);
 
+    friend std::string blockToString(Block);
 };
 
 #endif

@@ -5,11 +5,11 @@
 #include "../class/user.h"
 #include <random>
 #include <string>
-
+#include <sstream>
 
 class Transaction
 {
-    public:
+public:
     std::string ID;
     /* std::string sender_public_key;
     std::string reciever_public_key;  */
@@ -19,13 +19,13 @@ class Transaction
     bool completed = false;
 
     Transaction();
-    Transaction(User&, User&);
-    Transaction(User&, User&, int);
+    Transaction(User &, User &);
+    Transaction(User &, User &, int);
 
-    friend bool validateTransaction(Transaction&);
-    friend std::string getTransactionInfo (Transaction);
-    friend void getDetailedTransactionInfo(Transaction);
-
+    friend bool validateTransaction(Transaction &);
+    friend std::string getTransactionInfo(Transaction);
+    friend void printDetailedTransactionInfo(Transaction);
+    friend std::string transToString(Transaction);
 };
 
 #endif

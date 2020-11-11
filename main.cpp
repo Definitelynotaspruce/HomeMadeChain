@@ -18,7 +18,6 @@ const std::vector<User> generateUsers(int num)
     for (int i = 0; i < num; i++)
     {
         users.push_back(User(i));
-        //std::cout << getUserInfo(users[i]) << std::endl;
     }
     return users;
 }
@@ -36,10 +35,6 @@ std::vector<Transaction> generateTransactions(int num, std::vector<User> &users)
         std::cout << "Transaction nr: " << i << ", between " << transactions[i].sender->name
                   << " and " << transactions[i].reciever->name << std::endl;
         std::cout << getTransactionInfo(transactions[i]) << std::endl;
-
-        auto temp = transactions[i].sender->name;
-        std::cout << "DEBUG " << temp << std::endl;
-
     }
     return transactions;
 }
@@ -51,13 +46,7 @@ std::vector<Transaction *> pickRandomTransactions(std::vector<Transaction> &tran
     for (int i = 0; i < num; i++)
     {
         transInBlock.push_back(&(transactionPool[rand() % transactionInBlockNum]));
-        std::cout << "nr " << i << " " << transInBlock[i]->sender->name << std::endl;
-
-        std::cout << i << " " << transactionPool[rand() % transactionInBlockNum].sender->name << std::endl;
-
-        std::cout << "Transaction nr: " << i << ", between " << transInBlock[i]->sender->name
-                  << " and " << transInBlock[i]->reciever->name << std::endl;
-        std::cout << getTransactionInfo(*(transInBlock[i])) << std::endl;
+        printDetailedTransactionInfo(*transInBlock[i]);
     }
 
     return transInBlock;
