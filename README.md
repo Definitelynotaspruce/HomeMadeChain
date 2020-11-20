@@ -3,7 +3,7 @@ Homemade blockchain for uni project
 
 ## Main idea
 
-*HomeMadaChain* is a **extra** simplified version of bitcoin blockchain.
+*HomeMadeChain* is a **extra** simplified version of bitcoin blockchain.
 
 ## Structure of *HomeMadeChain* program
 
