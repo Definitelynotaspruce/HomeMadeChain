@@ -11,16 +11,18 @@ class Transaction
 {
 public:
     std::string ID;
-    /* std::string sender_public_key;
-    std::string reciever_public_key;  */
+    std::string sender_public_key;
+    std::string receiver_public_key;  
     User *sender;
-    User *reciever;
+    User *receiver;
     int sum;
     bool completed = false;
 
     Transaction();
     Transaction(User &, User &);
     Transaction(User &, User &, int);
+
+    bool operator==(const Transaction&) const;
 
     friend bool validateTransaction(Transaction &);
     friend std::string getTransactionInfo(Transaction);

@@ -1,17 +1,6 @@
-//#include "include/functions.h"
-#include "include/class/user.h"
-#include "include/class/transaction.h"
-#include "include/class/block.h"
-#include "include/class/chain.h"
-#include "include/headers/hash.h"
+#include "include/functions.h"
 
-#include <iostream>
-#include <random>
-#include <ctime>
-
-#define userNum 10
-#define transactionNum 100
-#define transactionInBlockNum 10
+bool stopThread = false;
 
 const std::vector<User> generateUsers(int num)
 {
@@ -35,30 +24,63 @@ std::vector<Transaction> generateTransactions(int num, std::vector<User> &users)
 
     for (int i = 0; i < num; i++)
     {
-        transactions.push_back(Transaction(users[rand() % userNum], users[rand() % userNum]));
-        //printDetailedTransactionInfo(transactions[i]);
+        User *u1 = &users[rand() % userNum];
+        User *u2 = &users[rand() % userNum];
+        if (u1->public_key != u2->public_key)
+            transactions.push_back(Transaction(*u1, *u2));
     }
-    std::cout << "Generation of transactions was done successfully!!\n";
+    std::cout << "Generated " << transactions.size() << " transactions, completed!!\n";
 
     return transactions;
 }
 
 std::vector<Transaction *> pickRandomTransactions(std::vector<Transaction> &transactionPool, int num)
 {
-    std::cout << "Picking " << num << " random Transactions...\n";
+
+    std::cout << "Trying to pick " << num << " transactions from transactionPool...\n";
     srand(std::time(0));
     std::vector<Transaction *> transInBlock;
-    for (int i = 0; i < num; i++)
+
+    if (num > transactionPool.size())
     {
-        transInBlock.push_back(&(transactionPool[rand() % transactionInBlockNum]));
-        //printDetailedTransactionInfo(*transInBlock[i]);
+        num = transactionPool.size();
+        for (int i = 0; i < num; i++)
+        {
+            auto trans = &(transactionPool[rand() % num]);
+            try
+            {
+                validateTransaction(*trans);
+                transInBlock.push_back(trans);
+            }
+            catch (const char *msg)
+            {
+                std::cout << msg << std::endl;
+            }
+        }
     }
-    std::cout << "Picking of random Transactions was done successfully!\n";
+
+    else
+    {
+        for (int i = 0; i < num; i++)
+        {
+            auto trans = &(transactionPool[rand() % num]);
+            try
+            {
+                validateTransaction(*trans);
+                transInBlock.push_back(trans);
+            }
+            catch (const char *msg)
+            {
+                std::cout << msg << std::endl;
+            }
+        }
+    }
+    std::cout << "Picked " << transInBlock.size() << " transactions, completed!\n";
 
     return transInBlock;
 }
 
-void validateTransactions(std::vector<Transaction *> &transInBlock)
+void validateTransactions(std::vector<Transaction *> &transInBlock, std::vector<Transaction> &transactionPool)
 {
     std::cout << "Validation of picked Transactions started...\n";
     for (auto it = transInBlock.begin(); it != transInBlock.end(); it++)
@@ -69,43 +91,83 @@ void validateTransactions(std::vector<Transaction *> &transInBlock)
         }
         catch (const char *msg)
         {
-            std::cerr << msg << std::endl;
+            transactionPool.erase(std::remove(transactionPool.begin(), transactionPool.end(), **it), transactionPool.end());
             transInBlock.erase(it--);
         }
     }
-    std::cout << "Validation of picked Transactions completed!\n";
+    std::cout << "Validated " << transInBlock.size() << " transactions, completed!!\n";
 }
 
-void removeTransFromPool(std::vector<Transaction *> &transInBlock)
+void execRemoveTransFromPool(std::vector<Transaction *> &transInBlock, std::vector<Transaction> &transactionPool)
 {
-    std::cout << "Removal of picked Transactions from transactionPool started...\n";
+    std::cout << "Removal of " << transInBlock.size() << " picked Transactions from transactionPool started...\n";
     for (auto it = transInBlock.begin(); it != transInBlock.end(); it++)
-    {        
-        transInBlock.erase(it--);
+    {
+        try
+        {
+            if (!((**it).sender->balance = (**it).sender->balance - (**it).sum))
+            {
+                throw "sender balance not enough";
+            }
+            (**it).receiver->balance = (**it).receiver->balance + (**it).sum;
+            transactionPool.erase(std::remove(transactionPool.begin(), transactionPool.end(), **it), transactionPool.end());
+            transInBlock.erase(it--);
+        }
+        catch (const char *msg)
+        {
+            std::cout << msg << std::endl;
+        }
     }
-    std::cout << "Removal of picked Transactions from transactionPool completed!\n";
+    std::cout << "Removed transactions from the transactionPool, completed!\n";
+}
+
+void mineTheBlock(std::vector<Transaction> &transactionPool, std::string &prevBlock, Block *last, unsigned tryNum)
+{
+    std::vector<Transaction *> transInBlock = pickRandomTransactions(transactionPool, transactionInBlockNum);
+    if (transInBlock.empty())
+        return;
+    try
+    {
+        Block *current = new Block(transInBlock, prevBlock);
+        last->prev = current;
+        validateTransactions(transInBlock, transactionPool);
+        execRemoveTransFromPool(transInBlock, transactionPool);
+        prevBlock = hash(blockToString(*current));
+        last = current;
+        std::cout << "Size of transactionPool after removal: " << transactionPool.size() << std::endl;
+        std::cout << std::endl;
+        transInBlock.clear();
+    }
+    catch (const char *msg)
+    {
+        std::cout << msg << std::endl;
+        transInBlock.clear();
+        return;
+    }
 }
 
 int main()
 {
-    Chain *head = new Chain(Block());
-    Chain *tail = head;
+    Block *first = new Block();
+    Block *last = first;
+    unsigned tryNum = 1000;
 
-    std::string prevBlock = hash(blockToString(head->currentBlock));
+    std::string prevBlock = hash(blockToString(*last));
 
     std::vector<User> users = generateUsers(userNum);
     std::vector<Transaction> transactionPool = generateTransactions(transactionNum, users);
 
     while (!transactionPool.empty())
     {
-        std::vector<Transaction *> TransInBlock = pickRandomTransactions(transactionPool, transactionInBlockNum);
-        validateTransactions(TransInBlock);
-        head->addToChain(Block(TransInBlock, prevBlock));
-        removeTransFromPool(TransInBlock);
-        std::cout << "Size of transactionPool after removal: " << transactionPool.size();
+        for (int i = 0; i < 5; i++)
+        {
+            mineTheBlock(transactionPool, prevBlock, last, tryNum);
+            if (transactionPool.empty())
+                break;
+        }
     }
 
-    std::cout << "I think its done " << transactionPool.size() << std::endl;
+    std::cout << "Transaction pool is empty " << transactionPool.size() << std::endl;
 
     return 0;
 }
