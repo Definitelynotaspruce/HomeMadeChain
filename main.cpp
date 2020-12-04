@@ -125,10 +125,14 @@ void mineTheBlock(std::vector<Transaction> &transactionPool, std::string &prevBl
 {
     std::vector<Transaction *> transInBlock = pickRandomTransactions(transactionPool, transactionInBlockNum);
     if (transInBlock.empty())
+    {
+        transactionPool.clear();
         return;
+    }
+
     try
     {
-        Block *current = new Block(transInBlock, prevBlock);
+        Block *current = new Block(transInBlock, prevBlock, true);
         last->prev = current;
         validateTransactions(transInBlock, transactionPool);
         execRemoveTransFromPool(transInBlock, transactionPool);

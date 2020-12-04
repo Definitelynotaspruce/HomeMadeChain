@@ -6,6 +6,7 @@
 #include "class/transaction.h"
 #include "class/block.h"
 #include "headers/hash.h"
+#include <bitcoin/bitcoin.hpp>
 
 #include <iostream>
 #include <random>
@@ -19,8 +20,8 @@
 #include <chrono>
 #include <future>
 
-#define userNum 1000
-#define transactionNum 10000
-#define transactionInBlockNum 100
+#define userNum 10
+#define transactionNum 100
+#define transactionInBlockNum 10
 
 #endif

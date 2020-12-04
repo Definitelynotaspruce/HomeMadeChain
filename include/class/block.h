@@ -9,6 +9,7 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include <bitcoin/bitcoin.hpp>
 
 class Block
 {
@@ -28,10 +29,13 @@ public:
 
     Block();
     Block(std::vector<Transaction *>, std::string);
+    Block(std::vector<Transaction *>, std::string, bool);
 
     void findTheRightNonce();
     void setTransID();
     std::string merkleRoot();
+    bc::hash_list convertToTx_list(std::vector<std::string>&);
+    bc::hash_digest create_merkle(bc::hash_list &);
 
     friend std::string blockToString(Block);
     friend std::string includedTransToString(Block);
