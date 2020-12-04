@@ -11,7 +11,7 @@ Homemade blockchain for uni project
 + class *Transaction*
 + class *Block* (header + transactions)
 + hash from [**NeonRice**](https://github.com/NeonRice/Rice_Hash)
-+ a lot of tears
++ [*libbitcoin*](https://github.com/libbitcoin/libbitcoin-system) toolkit 
 
 ## How does *HomeMadeChain* even work?
 1. *Users* with random balances are generated and stored into *std::vector*
@@ -24,6 +24,12 @@ Homemade blockchain for uni project
 4. Validation and verification are done before mining the block.
 5. After finding the right **nonce** transactions are executed and balances of *Users* are updated.
 6. Blocks are stored in a *linkedlist*
+
+## NEW IN [**v0.3**](https://github.com/Definitelynotaspruce/HomeMadeChain/releases/tag/0.3) !!!
+
+### Implementation of [*libbitcoin*](https://github.com/libbitcoin/libbitcoin-system) toolkit
+
+#### Merkle root is now calculated with *create_merkle()* function using [*libbitcoin*](https://github.com/libbitcoin/libbitcoin-system) tools
 
 ## NEW IN [**v0.2**](https://github.com/Definitelynotaspruce/HomeMadeChain/releases/tag/0.2) !!!
 
@@ -80,7 +86,9 @@ Mining is done in *Block* class constructor
 ## Want to run this program by yourself?  
 1. Download the release
 2. Compile the program:
-<br>*g++ block.cpp main.cpp user.cpp transaction.cpp .\include\headers\hash.cpp*
+<br>*g++ block.cpp main.cpp user.cpp transaction.cpp .\include\headers\hash.cpp* (for [**v0.2**](https://github.com/Definitelynotaspruce/HomeMadeChain/releases/tag/0.2))
+<br> or
+<br> g++ -std=c++11 -o main main.cpp block.cpp user.cpp transaction.cpp  include/headers/hash.cpp $(pkg-config --cflags --libs libbitcoin) (for [**v0.3**](https://github.com/Definitelynotaspruce/HomeMadeChain/releases/tag/0.3))
 3. Run the *exe* or binary file
 4. Enjoy
 
@@ -93,3 +101,4 @@ Mining is done in *Block* class constructor
  
 [**[v0.2]**](https://github.com/Definitelynotaspruce/HomeMadeChain/releases/tag/0.2) - added function to find *MerkleRoot* 
 
+[**[v0.3]**](https://github.com/Definitelynotaspruce/HomeMadeChain/releases/tag/0.3) - implementation of  [*libbitcoin*](https://github.com/libbitcoin/libbitcoin-system) toolkit for merkle root calculation
